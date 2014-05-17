@@ -1,0 +1,7 @@
+{
+	"host":"ukhas.net",
+	"user":"**username**",
+	"password":"**password**",
+	"database":"**db**",
+	"ssl":true
+}
