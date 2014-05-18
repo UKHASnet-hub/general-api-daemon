@@ -1,5 +1,5 @@
 {
-  "name": "UKHASnet-api-daemon",
+  "name": "general-api-daemon",
   "version": "0.3.0",
   "description": "General API Daemon for ukhas.net",
   "contributors": [ 
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/UKHASnet/UKHASnet-api-daemon.git"
+    "url": "git@github.com:UKHASnet-hub/general-api-daemon.git"
   },
   "author": "UKHASnet",
   "license": "GPLv3",
   "bugs": {
-    "url": "https://github.com/UKHASnet/UKHASnet-api-daemon/issues"
+    "url": "https://github.com/UKHASnet-hub/general-api-daemon/issues"
   },
-  "homepage": "https://github.com/UKHASnet/UKHASnet-api-daemon",
+  "homepage": "https://github.com/UKHASnet-hub/general-api-daemon",
   "dependencies": {
     "body-parser": "^1.2.0",
     "express": "^4.2.0",
