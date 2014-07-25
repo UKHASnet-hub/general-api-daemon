@@ -30,7 +30,11 @@ app.get('/nodePackets', function(req, res) {
                     console.log('DB Query Error: ', err)
                     return
                 }
-                returnData.lBoot=result.rows[0].lboot
+                if(result.rows.length==0) {
+                    returnData.lBoot=0;
+                } else {
+                    returnData.lBoot=result.rows[0].lboot
+                }
                 res.type('application/json');
                 res.set('X-Response-Time', (new Date() - startTime)+'ms');
                 res.send(returnData)
