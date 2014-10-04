@@ -8,6 +8,12 @@ app.post('/addNode', function(req, res) {
         res.send(400, 'No node name given.')
         return
     }
+    if(req.body.name=="") {
+        res.type('application/json')
+        res.set('X-Response-Time', (new Date() - startTime)+'ms')
+        res.send({'error':2})
+        return
+    }
     var owner=''
     if(req.body.owner) {
         owner = req.body.owner
@@ -36,12 +42,14 @@ app.post('/addNode', function(req, res) {
                     res.type('application/json')
                     res.set('X-Response-Time', (new Date() - startTime)+'ms')
                     res.send({'error':0})
+                    return
                 });
             } else {
                 done()
                 res.type('application/json')
                 res.set('X-Response-Time', (new Date() - startTime)+'ms')
                 res.send({'error':1})
+                return
             }
         });
     });
