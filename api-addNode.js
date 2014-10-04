@@ -18,7 +18,7 @@ app.post('/addNode', function(req, res) {
             console.log('DB Connection Error: ', err)
             return
         }
-        client.query('SELECT COUNT(*) as count FROM ukhasnet.nodes WHERE name=$1;', [req.body.name.name], function(err, result) {
+        client.query('SELECT COUNT(*) as count FROM ukhasnet.nodes WHERE name=$1;', [req.body.name], function(err, result) {
             if(err) {
                 res.send(500,'Database Query Error')
                 console.log('DB Query Error: ', err)
