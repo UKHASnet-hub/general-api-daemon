@@ -13,6 +13,8 @@ app.get('/nodeInfo', function(req, res) {
         var query
         if(req.query.id) {
             query = client.query('SELECT id,name,owner,typeid FROM ukhasnet.nodes WHERE id=$1;', [req.query.id])
+        } else if(req.query.name) {
+            query = client.query('SELECT id,name,owner,typeid FROM ukhasnet.nodes WHERE name=$1;', [req.query.name])
         } else {
             query = client.query('SELECT id,name,owner,typeid FROM ukhasnet.nodes ORDER BY id ASC;')
         }
