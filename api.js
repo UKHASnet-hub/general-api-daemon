@@ -26,6 +26,7 @@ require('./api-nodeGraphData')(app,pg,pgConfig)
 require('./api-nodeInfo')(app,pg,pgConfig)
 require('./api-nodePackets')(app,pg,pgConfig)
 require('./api-nodeData')(app,pg,pgConfig)
+require('./api-lastData')(app,pg,pgConfig)
 require('./api-nodeLocations')(app,pg,pgConfig)
 require('./api-nodeTypes')(app,pg,pgConfig)
 
