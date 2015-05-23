@@ -5,8 +5,8 @@ module.exports = function(app,pg,pgConfig){
 app.get('/nodeLocations', function(req, res) {
     var startTime = new Date();
     var since_time;
-    if(!req.query.id) {
-        res.send(400,'No Node id supplied.')
+    if(!req.query.id && !req.query.name) {
+        res.send(400,'No Node id or name supplied.')
         return
     }
     if(!req.query.since) {
@@ -26,7 +26,12 @@ app.get('/nodeLocations', function(req, res) {
             return
         }
         var outputData=[]
-        var dataQuery = client.query('SELECT data_location.latitude AS lat, data_location.longitude AS lon, data_location.altitude as alt, packet_rx.packet_rx_time AS time from ukhasnet.data_location INNER JOIN (SELECT id from ukhasnet.packet AS id WHERE originid = $1) AS packet ON packet.id = data_location.packetid INNER JOIN (SELECT packetid,packet_rx_time FROM ukhasnet.packet_rx WHERE packet_rx_time >= $2) AS packet_rx on packet.id=packet_rx.packetid ORDER BY packet_rx.packet_rx_time DESC;',[req.query.id, since_time.toISOString()])
+        var dataQuery
+        if(req.query.name) {
+            dataQuery = client.query('SELECT data_location.latitude AS lat, data_location.longitude AS lon, data_location.altitude as alt, packet_rx.packet_rx_time AS time from ukhasnet.data_location INNER JOIN (SELECT id from ukhasnet.packet AS id WHERE originid = (SELECT id FROM ukhasnet.nodes WHERE name=$1)) AS packet ON packet.id = data_location.packetid INNER JOIN (SELECT packetid,packet_rx_time FROM ukhasnet.packet_rx WHERE packet_rx_time >= $2) AS packet_rx on packet.id=packet_rx.packetid ORDER BY packet_rx.packet_rx_time DESC;',[req.query.name, since_time.toISOString()])
+        } else {
+            dataQuery = client.query('SELECT data_location.latitude AS lat, data_location.longitude AS lon, data_location.altitude as alt, packet_rx.packet_rx_time AS time from ukhasnet.data_location INNER JOIN (SELECT id from ukhasnet.packet AS id WHERE originid = $1) AS packet ON packet.id = data_location.packetid INNER JOIN (SELECT packetid,packet_rx_time FROM ukhasnet.packet_rx WHERE packet_rx_time >= $2) AS packet_rx on packet.id=packet_rx.packetid ORDER BY packet_rx.packet_rx_time DESC;',[req.query.id, since_time.toISOString()]
+        }
         dataQuery.on('row', function(row, result) {
             outputData.push({'lat':row.lat,'lon':row.lon,'alt':row.alt,'t':row.time})
         })
