@@ -74,6 +74,7 @@ app.get('/nodePackets', function(req, res) {
                     res.send(returnData)
                 });
                 */
+                done();
                 returnData.lBoot=0;
                 res.type('application/json');
                 res.set('X-Response-Time', (new Date() - startTime)+'ms');
