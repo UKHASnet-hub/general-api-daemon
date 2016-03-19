@@ -24,6 +24,7 @@ app.get('/nodePackets', function(req, res) {
                     return
                 }
                 returnData.lPackets=result.rows
+                /* ** Removed until we cache the boot packet in the nodes table to avoid this expensive query **
                 client.query('SELECT upload.time AS lboot FROM ukhasnet.packet INNER JOIN ukhasnet.upload ON upload.packetid=packet.id WHERE packet.originid=(SELECT id FROM ukhasnet.nodes WHERE name=$1) AND packet.sequence=\'a\' ORDER BY upload.time DESC LIMIT 1;', [req.query.name], function(err, result) {
                     done()
                     if(err) {
@@ -40,6 +41,11 @@ app.get('/nodePackets', function(req, res) {
                     res.set('X-Response-Time', (new Date() - startTime)+'ms');
                     res.send(returnData)
                 });
+                **/
+                returnData.lBoot=0;
+                res.type('application/json');
+                res.set('X-Response-Time', (new Date() - startTime)+'ms');
+                res.send(returnData);
             });
         } else {
             client.query('SELECT upload.packet AS p, upload.time AS t FROM (SELECT id FROM ukhasnet.packet WHERE originid=$1) AS packet INNER JOIN ukhasnet.upload on upload.packetid=packet.id ORDER BY upload.time DESC LIMIT 5;', [req.query.id], function(err, result) {
@@ -50,6 +56,7 @@ app.get('/nodePackets', function(req, res) {
                     return
                 }
                 returnData.lPackets=result.rows
+                /* ** Removed until we cache the boot packet in the nodes table to avoid this expensive query **
                 client.query('SELECT upload.time AS lboot FROM ukhasnet.packet INNER JOIN ukhasnet.upload ON upload.packetid=packet.id WHERE packet.originid=$1 AND packet.sequence=\'a\' ORDER BY upload.time DESC LIMIT 1;', [req.query.id], function(err, result) {
                     done()
                     if(err) {
@@ -66,6 +73,11 @@ app.get('/nodePackets', function(req, res) {
                     res.set('X-Response-Time', (new Date() - startTime)+'ms');
                     res.send(returnData)
                 });
+                */
+                returnData.lBoot=0;
+                res.type('application/json');
+                res.set('X-Response-Time', (new Date() - startTime)+'ms');
+                res.send(returnData);
             });
         }
     });
