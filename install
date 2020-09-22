@@ -1,0 +1,20 @@
+source_dir="$(cd $(dirname ${BASH_SOURCE[0]}) && pwd)"
+cd "$source_dir"
+
+install_service () {
+    service=$1;
+
+    echo "Installing/updating ${service} ..";
+    skel="${service}.service.skel";
+    temp="${service}.service";
+    sudo sed "s#{{directory}}#${source_dir}#g" < $skel > $temp;
+    sudo mv -f $temp /etc/systemd/system/;
+    sudo systemctl daemon-reload;
+
+    echo " - Enabling at boot.."
+    sudo systemctl enable "$service"
+
+    echo " - Install Complete! (service not started)"
+}
+
+install_service "general-api-daemon"

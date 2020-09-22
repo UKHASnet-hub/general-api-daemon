@@ -1,0 +1,15 @@
+[Unit]
+Description=UKHASnet General API Daemon
+After=syslog.target
+
+[Service]
+Type=simple
+User=_ukhasnet-api
+Group=_ukhasnet-api
+ExecStart=/usr/bin/stdbuf -oL -eL {{directory}}/api.js
+WorkingDirectory={{directory}}
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
