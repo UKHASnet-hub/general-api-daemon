@@ -11,8 +11,9 @@ app.get('/nodeGraphData', function(req, res) {
     }
     if(!req.query.since) {
         if(!req.query.period) {
-            res.send(400,'No Time period specified.')
-            return
+            //res.send(400,'No Time period specified.')
+            //return
+           since_time = new Date(new Date() - (172800)*1000);
         } else {
            since_time = new Date(new Date() - req.query.period*1000);
         }
