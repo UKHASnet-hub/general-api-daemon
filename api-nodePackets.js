@@ -16,7 +16,7 @@ app.get('/nodePackets', function(req, res) {
             return
         }
         if(req.query.name) {
-            client.query('SELECT upload.packet AS p, upload.time AS t FROM (SELECT id FROM ukhasnet.packet WHERE originid=(SELECT id FROM ukhasnet.nodes WHERE name=$1)) AS packet INNER JOIN ukhasnet.upload on upload.packetid=packet.id ORDER BY upload.time DESC LIMIT 5;', [req.query.name], function(err, result) {
+            client.query('SELECT upload.packet AS p, upload.time AS t FROM ukhasnet.upload INNER JOIN ukhasnet.packet on upload.packetid=packet.id WHERE packet.originid=(SELECT id FROM ukhasnet.nodes WHERE name=$1) AND upload.time > (NOW() - INTERVAL \'1 month\') ORDER BY upload.time DESC LIMIT 5;', [req.query.name], function(err, result) {
                 if(err) {
                     done()
                     res.send(500,'Database Query Error')
@@ -42,13 +42,14 @@ app.get('/nodePackets', function(req, res) {
                     res.send(returnData)
                 });
                 **/
+		done()
                 returnData.lBoot=0;
                 res.type('application/json');
                 res.set('X-Response-Time', (new Date() - startTime)+'ms');
                 res.send(returnData);
             });
         } else {
-            client.query('SELECT upload.packet AS p, upload.time AS t FROM (SELECT id FROM ukhasnet.packet WHERE originid=$1) AS packet INNER JOIN ukhasnet.upload on upload.packetid=packet.id ORDER BY upload.time DESC LIMIT 5;', [req.query.id], function(err, result) {
+            client.query('SELECT upload.packet AS p, upload.time AS t FROM ukhasnet.upload INNER JOIN ukhasnet.packet on upload.packetid=packet.id WHERE packet.originid=$1 AND upload.time > (NOW() - INTERVAL \'1 month\') ORDER BY upload.time DESC LIMIT 5;', [req.query.id], function(err, result) {
                 if(err) {
                     done()
                     res.send(500,'Database Query Error')
