@@ -5,11 +5,11 @@
   "contributors": [
     {
       "name": "Phil Crump",
-      "email": "phildcrump@gmail.com"
+      "email": "phil@philcrump.co.uk"
     }
   ],
   "scripts": {
-    "start": "node ./api.js"
+    "start": "./api.js"
   },
   "repository": {
     "type": "git",
@@ -23,9 +23,9 @@
   "homepage": "https://github.com/UKHASnet-hub/general-api-daemon",
   "dependencies": {
     "async": "^0.9.2",
-    "body-parser": "^1.12.4",
-    "express": "^4.13.3",
-    "pg": "^4.4.1"
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "pg": "^4.5.6"
   },
   "engines": {
     "node": ">=0.10"
